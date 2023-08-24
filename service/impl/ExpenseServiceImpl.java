@@ -1,7 +1,9 @@
 package pro.sky.expenses.service.impl;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import pro.sky.expenses.entity.Expense;
+import pro.sky.expenses.entity.ExpenseByCategory;
 import pro.sky.expenses.repository.ExpenseRepository;
 import pro.sky.expenses.service.ExpenseService;
 
@@ -17,8 +19,10 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public List<Expense> getAllExpenses() {
-        return expenseRepository.findAll();
+    public List<Expense> getAllExpenses(Integer pageNumber, Integer pageSize) {
+
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
+        return expenseRepository.findAll(pageRequest).getContent();
     }
 
     @Override
@@ -29,5 +33,10 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Override
     public void deleteExpense(long id) {
         expenseRepository.deleteById(id);
+    }
+
+    @Override
+    public List<ExpenseByCategory> getExpensesByCategory() {
+        return expenseRepository.getExpenseByCategory();
     }
 }

@@ -18,8 +18,9 @@ public class ExpensesController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Expense>> getAllExpenses() {
-        List<Expense> expenses = expenseService.getAllExpenses();
+    public ResponseEntity<List<Expense>> getAllExpenses(@RequestParam("page") Integer pageNumber,
+                                                        @RequestParam("size") Integer pageSize) {
+        List<Expense> expenses = expenseService.getAllExpenses(pageNumber, pageSize);
         return ResponseEntity.ok(expenses);
     }
 
